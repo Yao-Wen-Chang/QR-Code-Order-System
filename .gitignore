@@ -1,0 +1,40 @@
+# .gitignore for Django projects
+
+# Ignore virtual environment
+venv/
+
+# Ignore database files
+*.sqlite3
+*.db
+
+# Ignore static files collected by collectstatic
+staticfiles/
+
+# Ignore media files
+media/
+
+# Ignore secret key
+*.secret_key
+
+# Ignore local settings
+local_settings.py
+
+# Ignore temporary files
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignore logs
+*.log
+
+# Ignore environment variables file
+.env
+
+# Ignore IDE files and directories
+.idea/
+.vscode/
+*.pyc
+
+# Ignore migration files (only if you're not using them for version control)
+**/migrations/*.py
+**/migrations/*.pyc

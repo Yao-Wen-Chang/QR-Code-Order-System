@@ -1,0 +1,10 @@
+<!-- view_cart.html -->
+<h2>Your Cart</h2>
+  {% for item in cart_items %}
+    <ul>
+      <li>{{ item.item_name }} - {{ item.quantity }} x {{ item.price }}</li>
+    </ul>
+  {% endfor %}
+  <p>Total: $<span id="cart-total">{{ orders_amount }}</span></p>
+<a href="{% url 'food_menu' %}">Continue Shopping</a>
+<p>Proceed to Checkout</p>

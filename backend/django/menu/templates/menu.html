@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'menu/menu.css' %}">
+    <title>Food Menu</title>
+</head>
+<body>
+
+  <h1>Food Menu</h1>
+
+  <!-- Category Select Dropdown -->
+  <div class="menu-bar">
+    <label for="category">Select Category:</label>
+    <select id="category" name="category" onchange="filterMenu()">
+      <option value="all">All Categories</option>
+      {% for category in categories %}
+          <option value="{{ category.id }}">{{ category.name }}</option>
+      {% endfor %}
+    </select>
+    <button onclick="openCartModal()">Cart</button>
+  </div>
+
+  <!-- Display Filtered Items -->
+  <div id="menu-items">
+    {% for item in menu %}
+      <div class="menu-item" data-category="{{ item.category.id }}">
+        <h2>{{ item.name }}</h2>
+        {% if item.photo %}
+          <img src="{{ item.photo.url }}" alt="{{ item.name }}" width="100">
+        {% endif %}
+        <p>{{ item.description }}</p>
+        <p>Price: ${{ item.price }}</p>
+        <form method="post" action="orders/add_to_cart/{{item.id}}">
+          {% csrf_token %}
+          <button type="submit">Add to Cart</button>
+        </form>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Cart Modal -->
+  <div id="cart-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeCartModal()">&times;</span>
+      <h2>Your Cart</h2>
+      {% for order in orders %}
+        <!-- <h3>Order #{{ order.id }}</h3> -->
+        <ul>
+          <li>{{ order.item_name }} - {{ order.quantity }} x {{ order.price }}</li>
+        </ul>
+      {% endfor %}
+
+      <p>Total: $<span id="cart-total">{{ orders_amount }}</span></p>
+      <button onclick="moveToOrdersView()">Check The Order</button>
+    </div>
+  </div>
+
+
+  <script>
+    function filterMenu() {
+      var selectedCategory = document.getElementById("category").value;
+      var menuItems = document.getElementsByClassName("menu-item");
+
+      for (var i = 0; i < menuItems.length; i++) {
+        var category = menuItems[i].getAttribute("data-category");
+        if (selectedCategory === "all" || category === selectedCategory) {
+          menuItems[i].style.display = "block";
+        } else {
+          menuItems[i].style.display = "none";
+        }
+      }
+    }
+
+    // function addToCart(name, price) {
+    //   // Update the cart modal content
+    //   var cartItemsList = document.getElementById("cart-items-list");
+    //   var cartTotal = document.getElementById("cart-total");
+
+    //   var newItem = document.createElement("li");
+    //   newItem.textContent = name + " - $" + price.toFixed(2);
+    //   cartItemsList.appendChild(newItem);
+
+    //   // Update the total
+    //   var currentTotal = parseFloat(cartTotal.textContent);
+    //   cartTotal.textContent = (currentTotal + price).toFixed(2);
+
+    //   // Show the cart modal
+    //   var cartModal = document.getElementById("cart-modal");
+    //   cartModal.style.display = "block";
+    // }
+    function moveToOrdersView() {
+        // Assuming you want to navigate to the "orders" view
+        window.location.href = '/orders/view_cart'; // Change the URL to the appropriate route
+    }
+
+    function closeCartModal() {
+      // Close the cart modal
+      var cartModal = document.getElementById("cart-modal");
+      cartModal.style.display = "none";
+    }
+
+    // Close the cart modal initially
+    document.addEventListener("DOMContentLoaded", function() {
+      closeCartModal();
+    });
+
+    function openCartModal() {
+      var cartModal = document.getElementById("cart-modal");
+      cartModal.style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
+
+
