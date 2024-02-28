@@ -27,8 +27,6 @@ __pycache__/
 # Ignore logs
 *.log
 
-# Ignore environment variables file
-.env
 
 # Ignore IDE files and directories
 .idea/
@@ -38,3 +36,33 @@ __pycache__/
 # Ignore migration files (only if you're not using them for version control)
 **/migrations/*.py
 **/migrations/*.pyc
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.svg
+*.png
+# icon
+*.icon
+*.ico
+# env
+*.env
+

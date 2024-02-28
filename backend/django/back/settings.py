@@ -34,7 +34,10 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "menu.apps.MenuConfig",
     "login.apps.LoginConfig",
+    "api.apps.ApiConfig",
     "orders.apps.OrdersConfig",
+    'rest_framework',
+    'corsheaders',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -56,6 +59,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = "back.urls"
@@ -82,11 +86,31 @@ WSGI_APPLICATION = "back.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#   'default': {
+#     'ENGINE': 'django.db.backends.postgresql',
+#     'NAME': os.getenv("POSTGRES_NAME"),
+#     'USER': os.getenv("POSTGRES_USER"),
+#     'PASSWORD': 'password',
+#     'HOST': 'localhost',
+#     'PORT': '5432',
+#   }
+# }
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+	"default": {
+			# Add the docker environment SQL_ENGINE variable or for local development use sqlite3 engine
+		"ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"), 
+			# Add the docker environment SQL_DATABASE variable or use the local sqlite database soruce
+		"NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+			# Add the docker SQL_USER environment variable or on need password for sqlite3
+		"USER": os.environ.get("SQL_USER", ""),
+			# Add the docker SQL_PASSWORD environment variable or on need password for sqlite3
+		"PASSWORD": os.environ.get("SQL_PASSWORD", ""),
+			# Add the docker SQL_HOST environment variable or on need host for sqlite3
+		"HOST": os.environ.get("SQL_HOST", ""),
+			# Add the docker SQL_HOST environment variable or on need port for sqlite3
+		"PORT": os.environ.get("SQL_PORT", ""),
+	}
 }
 
 
@@ -133,3 +157,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
+
+CORS_ORIGIN_ALLOW_ALL = True

@@ -15,3 +15,6 @@
 
 ### Payload
 1. 
+[Case 1](https://thehackernews.com/2024/01/beware-3-malicious-pypi-packages-found.html)
+2.
+[Case 2](https://thehackernews.com/2023/12/116-malware-packages-found-on-pypi.html)
